@@ -25,3 +25,60 @@ body {
     text-wrap: balance;
   }
 }
+
+.background-image-transition {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.background-image-visible {
+  opacity: 1;
+}
+
+/* You can place this in your global stylesheet or customize Tailwind configuration */
+.start-menu {
+  background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
+  color: white;
+  padding: 1rem;
+}
+
+.start-menu .app-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.open-start-menu {
+  animation: open-start-menu 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 normal
+    none;
+}
+
+@keyframes open-start-menu {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.close-start-menu {
+  animation: close-start-menu 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 normal
+    none;
+}
+
+@keyframes close-start-menu {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
