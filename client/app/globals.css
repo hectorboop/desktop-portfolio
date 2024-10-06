@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,6 +27,25 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Add this CSS to your global stylesheet */
+@media (max-width: 1200px), (max-height: 800px) {
+  .too-small-message {
+    display: block;
+  }
+
+  .content {
+    display: none;
+  }
+}
+
+.too-small-message {
+  display: none;
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 50px;
 }
 
 .background-image-transition {
@@ -67,7 +89,7 @@ body {
 }
 
 .close-start-menu {
-  animation: close-start-menu 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 normal
+  animation: close-start-menu 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 normal
     none;
 }
 
@@ -81,4 +103,37 @@ body {
     opacity: 0;
     transform: translateY(100%);
   }
+}
+
+@layer components {
+  .taskbar {
+    @apply bg-gray-800 p-2 border-gray-700;
+    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.2),
+      inset 2px 2px 5px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@layer components {
+  .statusbar {
+    @apply bg-gray-800 p-2 border-gray-700;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6),
+      -2px -2px 5px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.sofia {
+  font-family: 'Sofia Sans Extra Condensed', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.roboto {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+.icon-gradient {
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #1dd1a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

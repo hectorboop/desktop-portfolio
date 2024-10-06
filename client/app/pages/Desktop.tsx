@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import TaskBar from '../components/TaskBar';
-import StatusBar from '../components/StatusBar';
 import { preloadImages } from '../utilities/preloadImages';
 
 import StartMenu from '../components/StartMenu';
@@ -13,6 +12,7 @@ import {
   FaMountain,
   FaSun,
 } from 'react-icons/fa'; // Example icons
+import DesktopArea from '../components/DesktopArea';
 
 type Props = {};
 
@@ -21,27 +21,27 @@ function Desktop({}: Props) {
   const backgroundOptions = [
     {
       id: 1,
-      url: '/images/seaside.jpg',
-      name: 'Seaside',
-      preview: '/images/seaside.jpg',
+      url: '/images/dune.jpg',
+      name: 'Dune',
+      preview: '/images/dune.jpg',
     },
     {
       id: 2,
-      url: '/images/mountains.jpg',
-      name: 'Mountains',
-      preview: '/images/mountains.jpg',
+      url: '/images/purplehills.jpg',
+      name: 'Purplehills',
+      preview: '/images/purplehills.jpg',
     },
     {
       id: 3,
-      url: '/images/lake.jpg',
-      name: 'Lake',
-      preview: '/images/lake.jpg',
+      url: '/images/redhills.jpg',
+      name: 'Redhills',
+      preview: '/images/redhills.jpg',
     },
     {
       id: 4,
-      url: '/images/forest.jpg',
-      name: 'Forest',
-      preview: '/images/forest.jpg',
+      url: '/images/redsunset.jpg',
+      name: 'Redsunset',
+      preview: '/images/redsunset.jpg',
     },
   ];
 
@@ -109,14 +109,7 @@ function Desktop({}: Props) {
 
   return (
     <div className='flex flex-col items-center justify-center relative w-full h-screen overflow-hidden'>
-      <div className='h-8'>
-        <StatusBar
-          setSelectedBackground={setSelectedBackground}
-          backgroundOptions={backgroundOptions}
-        />
-      </div>
-
-      <div className='fixed bottom-0 top-8 left-0 right-0 over w-screen h-screen overflow-hidden'>
+      <div className='fixed bottom-0 top-0 left-0 right-0 over w-screen h-screen overflow-hidden'>
         {/* Background image */}
         <div
           className={`absolute inset-0 bg-cover bg-center background-image-transition ${
@@ -124,9 +117,10 @@ function Desktop({}: Props) {
           }`}
           style={{ backgroundImage: `url(${selectedBackground})` }}
         />
+        {/*<div className='absolute inset-x-0 bottom-14 h-1/6  bg-gradient-to-b from-transparent to-blue-950'></div>
         {/* Optional: Desktop content here */}
-        <div className='absolute inset-0 flex items-center justify-center text-white'>
-          <h1 className='text-4xl font-bold'>Welcome to Your Desktop</h1>
+        <div className='absolute bottom-12 top-0 right-0 left-0 inset-0 flex items-center justify-center text-white'>
+          <DesktopArea />
         </div>
 
         {/* Full-screen Start Menu */}
@@ -145,6 +139,7 @@ function Desktop({}: Props) {
         <TaskBar
           toggleStartMenu={toggleStartMenu}
           isDisabled={isAnimationRunning}
+          isStartMenuOpen={isStartMenuOpen}
         />
       </div>
     </div>

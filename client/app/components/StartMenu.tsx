@@ -55,78 +55,123 @@ function StartMenu({
     <>
       {isVisible && (
         <div
-          className={`fixed bottom-0 top-8 left-0 right-0 h-screen w-full overflow-hidden bg-gray-900 bg-opacity-90 backdrop-blur-lg shadow-lg text-white p-6 flex flex-col 
+          className={`fixed bottom-0 top-0 left-0 right-0 h-screen w-full overflow-hidden bg-gray-900 bg-opacity-90 backdrop-blur-lg shadow-lg text-white p-6 flex flex-col 
           ${isOpen ? 'open-start-menu' : 'close-start-menu'}
           ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Left - Change Background Section */}
-          <div className='flex flex-col space-y-4'>
-            <h2 className='text-xl font-bold'>Change Background</h2>
-
+          <div className='flex flex-row space-x-8 items-center justify-center'>
             {/* Image Slider */}
-            <div className='relative w-3/12 flex items-center justify-center'>
-              {/* Left Arrow */}
-              <button
-                className='absolute left-0 p-2 bg-gray-800 hover:bg-gray-700'
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent StartMenu from closing on click
-                  prevBackground();
-                }}
-              >
-                ◀
-              </button>
-
-              {/* Current Image */}
-              <div className='overflow-hidden w-64 h-40 rounded-lg relative'>
-                <img
-                  src={backgrounds[currentBackground].preview}
-                  alt={backgrounds[currentBackground].name}
-                  className='w-full h-full object-cover'
-                />
+            <div className='flex flex-col md:flex'>
+              <div className='relative w-80 flex items-center justify-center'>
+                {/* Left Arrow */}
                 <button
-                  className='absolute inset-0 bg-transparent'
+                  className='absolute left-0 p-2 bg-gray-800 hover:bg-gray-700'
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent StartMenu from closing on click
+                    prevBackground();
+                  }}
+                >
+                  ◀
+                </button>
+
+                {/* Current Image */}
+                <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
+                  <img
+                    src={backgrounds[currentBackground].preview}
+                    alt={backgrounds[currentBackground].name}
+                    className='w-full h-full object-cover'
+                  />
+                  <button
+                    className='absolute inset-0 bg-transparent'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      changeBackground(backgrounds[currentBackground].url);
+                    }}
+                  />
+                </div>
+
+                {/* Right Arrow */}
+                <button
+                  className='absolute right-0 p-2 bg-gray-800 hover:bg-gray-700'
                   onClick={(e) => {
                     e.stopPropagation();
-                    changeBackground(backgrounds[currentBackground].url);
+                    nextBackground();
                   }}
-                />
+                >
+                  ▶
+                </button>
               </div>
+              <h1 className='text-base font-extralight self-center py-1'>
+                Background
+              </h1>
+            </div>
 
-              {/* Right Arrow */}
-              <button
-                className='absolute right-0 p-2 bg-gray-800 hover:bg-gray-700'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextBackground();
-                }}
-              >
-                ▶
-              </button>
+            {/* Image Slider */}
+            <div className='flex flex-col md:flex'>
+              <div className='relative w-80 flex items-center justify-center'>
+                {/* Left Arrow */}
+                <button
+                  className='absolute left-0 p-2 bg-gray-800 hover:bg-gray-700'
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent StartMenu from closing on click
+                    prevBackground();
+                  }}
+                >
+                  ◀
+                </button>
 
-              {/* Fading on the left and right for preview effect */}
-              <div className='absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-gray-900 to-transparent pointer-events-none' />
-              <div className='absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-gray-900 to-transparent pointer-events-none' />
+                {/* Current Image */}
+                <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
+                  <img
+                    src={backgrounds[currentBackground].preview}
+                    alt={backgrounds[currentBackground].name}
+                    className='w-full h-full object-cover'
+                  />
+                  <button
+                    className='absolute inset-0 bg-transparent'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      changeBackground(backgrounds[currentBackground].url);
+                    }}
+                  />
+                </div>
+
+                {/* Right Arrow */}
+                <button
+                  className='absolute right-0 p-2 bg-gray-800 hover:bg-gray-700'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextBackground();
+                  }}
+                >
+                  ▶
+                </button>
+              </div>
+              <h1 className='text-base font-thin self-center py-1'>Theme</h1>
             </div>
           </div>
 
           {/* Apps Section */}
-          <div className='mt-8 grid grid-cols-10 gap-6 p-6'>
-            {apps.map((app) => (
-              <div
-                key={app.id}
-                className='flex flex-col items-center justify-center space-y-2 p-4 cursor-pointer'
-                style={{ width: '80px' }}
-              >
+          <div className='px-60'>
+            <div className='mt-8 grid grid-cols-10 gap-6 p-6'>
+              {apps.map((app) => (
                 <div
-                  className='w-12 h-12 flex items-center justify-center rounded-full'
-                  style={{ width: '64px', height: '64px' }}
+                  key={app.id}
+                  className='flex flex-col items-center justify-center space-y-2 p-4 cursor-pointer'
+                  style={{ width: '80px' }}
                 >
-                  {app.icon}
+                  <div
+                    className='w-12 h-12 flex items-center justify-center rounded-full'
+                    style={{ width: '64px', height: '64px' }}
+                  >
+                    {app.icon}
+                  </div>
+                  <span className='text-center text-sm'>{app.name}</span>
                 </div>
-                <span className='text-center text-sm'>{app.name}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
