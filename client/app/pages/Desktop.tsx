@@ -57,6 +57,12 @@ function Desktop({}: Props) {
     // Add more apps as necessary
   ];
 
+  const [currentAppWindow, setCurrentAppWindow] = useState(1);
+
+  const toggleAppWindow = (id: number) => {
+    setCurrentAppWindow(id);
+  };
+
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isStartMenuVisible, setIsStartMenuVisible] = useState(false);
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
@@ -120,7 +126,10 @@ function Desktop({}: Props) {
         {/*<div className='absolute inset-x-0 bottom-14 h-1/6  bg-gradient-to-b from-transparent to-blue-950'></div>
         {/* Optional: Desktop content here */}
         <div className='absolute bottom-12 top-0 right-0 left-0 inset-0 flex items-center justify-center text-white'>
-          <DesktopArea />
+          <DesktopArea
+            toggleAppWindow={toggleAppWindow}
+            currentAppWindow={currentAppWindow}
+          />
         </div>
 
         {/* Full-screen Start Menu */}
@@ -140,6 +149,7 @@ function Desktop({}: Props) {
           toggleStartMenu={toggleStartMenu}
           isDisabled={isAnimationRunning}
           isStartMenuOpen={isStartMenuOpen}
+          toggleAppWindow={toggleAppWindow}
         />
       </div>
     </div>

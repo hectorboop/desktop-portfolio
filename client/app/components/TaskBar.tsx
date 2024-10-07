@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { TfiLayoutGrid3Alt } from 'react-icons/tfi';
-import { FcHome } from 'react-icons/fc';
-import { FaBatteryFull, FaBluetooth, FaEthernet, FaWifi } from 'react-icons/fa';
-import { HiMiniSpeakerWave } from 'react-icons/hi2';
-import { FiCheck, FiFilm } from 'react-icons/fi';
 
 import Gradients from '../components/Gradients';
 
 import {
   PiBatteryPlusVerticalThin,
   PiBluetoothThin,
-  PiCellSignalFull,
   PiCellSignalFullThin,
-  PiFolders,
   PiSpeakerHighThin,
 } from 'react-icons/pi';
-import { SiVisualstudiocode } from 'react-icons/si';
-import { BiFolder, BiLogoChrome, BiLogoVisualStudio } from 'react-icons/bi';
-import FileExplorer from './FileExplorer';
+
+import { taskbarApps } from '../utilities/appData';
 
 const gradients = ['gradient-1', 'gradient-2', 'gradient-3']; // List of gradient IDs
 // Randomly pick a gradient
@@ -29,9 +22,15 @@ type Props = {
   toggleStartMenu: () => void;
   isDisabled: boolean;
   isStartMenuOpen: boolean;
+  toggleAppWindow: (id: number) => void;
 };
 
-function TaskBar({ toggleStartMenu, isDisabled, isStartMenuOpen }: Props) {
+function TaskBar({
+  toggleStartMenu,
+  isDisabled,
+  isStartMenuOpen,
+  toggleAppWindow,
+}: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const gradientId = getRandomGradient(); // Get random gradient for each icon
 
@@ -45,9 +44,9 @@ function TaskBar({ toggleStartMenu, isDisabled, isStartMenuOpen }: Props) {
 
   const [isFileExplorerOpen, setIsFileExplorerOpen] = useState(false);
 
-  const toggleFileExplorer = () => {
-    setIsFileExplorerOpen(!isFileExplorerOpen);
-  };
+  //const toggleFileExplorer = () => {
+  //  setIsFileExplorerOpen(!isFileExplorerOpen);
+  //};
 
   return (
     <div className='fixed bottom-0 left-0 right-0 h-12 w-full bg-blue-950 bg-opacity-0 backdrop-blur-none flex flex-row  items-center justify-center'>
@@ -74,48 +73,21 @@ function TaskBar({ toggleStartMenu, isDisabled, isStartMenuOpen }: Props) {
             )}
           </div>
 
-          {/* Pinned Apps (just icons) */}
-          <button
-            className='hover:bg-gray-700 p-2 rounded-none'
-            aria-label='File Explorer'
-            onClick={toggleFileExplorer}
-          >
-            <BiFolder
-              className='w-8 h-8'
-              style={{ fill: `url(#gradient-2)` }}
-            />
-          </button>
-          <button className='hover:bg-gray-700 p-2 rounded-none'>
-            <BiLogoChrome
-              className='w-8 h-8 text-blue-400'
-              style={{ fill: `url(#gradient-8)` }}
-            />
-          </button>
-          <button className='hover:bg-gray-700 p-2 rounded-none'>
-            <BiLogoVisualStudio
-              className='w-8 h-8 text-blue-400'
-              style={{ fill: `url(#gradient-3)` }}
-            />
-          </button>
-          <button className='hover:bg-gray-700 p-2 rounded-sm'>
-            <PiFolders
-              className='w-8 h-8 text-blue-400'
-              style={{ fill: `url(#gradient-2)` }}
-            />
-          </button>
-          <button className='hover:bg-gray-700 p-2 rounded-sm'>
-            <PiFolders
-              className='w-8 h-8 text-blue-400'
-              style={{ fill: `url(#gradient-2)` }}
-            />
-          </button>
-          <button className='hover:bg-gray-700 p-2 rounded-sm'>
-            <PiFolders
-              className='w-8 h-8 text-blue-400'
-              style={{ fill: `url(#gradient-2)` }}
-            />
-          </button>
-          {/* Add more icons as needed */}
+          {taskbarApps.map((app) => (
+            <button
+              key={app.id}
+              className='hover:bg-gray-700 p-2 rounded-none'
+              aria-label={app.name}
+              onClick={() => {
+                toggleAppWindow(app.id);
+              }}
+            >
+              {React.createElement(app.icon, {
+                className: 'w-8 h-8',
+                style: { fill: `url(#${app.gradient})` },
+              })}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -193,9 +165,16 @@ function TaskBar({ toggleStartMenu, isDisabled, isStartMenuOpen }: Props) {
           </div>
         </div>
       </div>
-      <div className='fixed bottom-12 left-0 right-0 h-full w-full bg-gray-800 bg-opacity-90 flex flex-col justify-center items-center z-10'>
+
+      {/*<div
+        className={`${
+          isFileExplorerOpen
+            ? 'fixed overflow-auto bottom-12 left-0 right-0 h-screen w-screen bg-gray-800 bg-opacity-90 flex flex-col justify-center items-center'
+            : ''
+        }`}
+      >
         {isFileExplorerOpen && <FileExplorer onClose={toggleFileExplorer} />}
-      </div>
+      </div>*/}
     </div>
   );
 }

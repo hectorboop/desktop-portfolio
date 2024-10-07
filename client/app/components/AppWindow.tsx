@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
+import {
+  PiCaretCircleDownFill,
+  PiCaretCircleLeftFill,
+  PiCaretCircleUpFill,
+  PiXCircleFill,
+} from 'react-icons/pi';
+import Gradients from './Gradients';
 
 type Props = {
   title: string;
@@ -50,7 +57,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
       }
     >
       <div
-        className='absolute bg-gray-800 shadow-lg border border-gray-300 z-10'
+        className='absolute bg-gray-800 bg-opacity-70 shadow-lg border border-gray-300 z-10 rounded-lg'
         style={{
           width: `${size.width}px`,
           height: `${size.height}px`,
@@ -59,57 +66,52 @@ const AppWindow = ({ title, content, onClose }: Props) => {
         }}
       >
         {/* Title Bar */}
-        <div className='window-titlebar bg-gray-900 text-white flex justify-between items-center px-2 py-1'>
+        <div className='window-titlebar bg-gray-900 text-white flex justify-between items-center px-2 py-1 rounded-lg'>
           <div className='flex items-center'>
             <span className='font-semibold'>{title}</span>
           </div>
           <div className='flex items-center space-x-2'>
-            <button onClick={handleMinimize} className='hover:bg-gray-700 px-2'>
-              _
+            <Gradients />
+            <button onClick={handleMinimize} title='Minimize'>
+              <PiCaretCircleDownFill
+                style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
+              />
             </button>
-            <button onClick={handleMaximize} className='hover:bg-gray-700 px-2'>
-              □
+
+            <button onClick={handleMaximize} title='Maximize'>
+              {isMaximized ? (
+                <PiCaretCircleLeftFill
+                  style={{
+                    stroke: 'gradient-2',
+                    width: '20px',
+                    height: '20px',
+                  }}
+                />
+              ) : (
+                <PiCaretCircleUpFill
+                  style={{
+                    stroke: 'gradient-2',
+                    width: '20px',
+                    height: '20px',
+                  }}
+                />
+              )}
             </button>
-            <button onClick={onClose} className='hover:bg-red-600 px-2'>
-              X
+            <button onClick={onClose} title='Close'>
+              <PiXCircleFill
+                style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
+              />
             </button>
           </div>
         </div>
 
         {/* Window Content */}
         <div
-          className='bg-white p-4 overflow-auto'
+          className='bg-white bg-opacity-20 p-4 overflow-auto'
           style={{ height: size.height - 30 }}
         >
           {content}
         </div>
-
-        {/* Resizable Border */}
-        <div
-          className='absolute right-0 bottom-0 w-4 h-4 bg-transparent cursor-se-resize'
-          onMouseDown={(e) => {
-            e.preventDefault();
-            const move = (event: MouseEvent) =>
-              handleResize(event as any, 'right');
-            window.addEventListener('mousemove', move);
-            window.addEventListener('mouseup', () => {
-              window.removeEventListener('mousemove', move);
-            });
-          }}
-        ></div>
-
-        <div
-          className='absolute bottom-0 w-full h-2 bg-transparent cursor-s-resize'
-          onMouseDown={(e) => {
-            e.preventDefault();
-            const move = (event: MouseEvent) =>
-              handleResize(event as any, 'bottom');
-            window.addEventListener('mousemove', move);
-            window.addEventListener('mouseup', () => {
-              window.removeEventListener('mousemove', move);
-            });
-          }}
-        ></div>
       </div>
     </Draggable>
   );
