@@ -1,4 +1,4 @@
-import { SiPostman } from 'react-icons/si';
+import { SiCodewars, SiLeetcode, SiPostman } from 'react-icons/si';
 import Explorer from '../components/apps/Explorer';
 import {
   BiFolder,
@@ -14,8 +14,17 @@ import Docker from '../components/apps/Docker';
 import Postgress from '../components/apps/Postgress';
 import MongoDB from '../components/apps/MongoDB';
 import Postman from '../components/apps/Postman';
+import CodeWars from '../components/apps/CodeWars';
+import { VscTerminalPowershell } from 'react-icons/vsc';
 
 export const taskbarApps = [
+  {
+    id: 11,
+    name: 'Terminal',
+    icon: VscTerminalPowershell,
+    gradient: 'gradient-3',
+    component: Explorer,
+  },
   {
     id: 1,
     name: 'File Explorer',
@@ -59,10 +68,17 @@ export const taskbarApps = [
     component: MongoDB,
   },
   {
-    id: 6,
+    id: 7,
     name: 'Postman',
     icon: SiPostman,
     gradient: 'gradient-4',
     component: Postman,
+  },
+  {
+    id: 8,
+    name: 'CodeWars',
+    icon: SiCodewars,
+    gradient: 'gradient-8',
+    component: CodeWars,
   },
 ];

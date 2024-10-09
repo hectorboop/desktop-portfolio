@@ -13,6 +13,11 @@ import { PiFileCloudBold, PiFolderBold, PiTrashBold } from 'react-icons/pi';
 import { VscGithub } from 'react-icons/vsc';
 
 import { taskbarApps } from '../utilities/appData';
+import About from './apps/About';
+import Bin from './apps/Bin';
+import Projects from './apps/Projects';
+import Repo from './apps/Repo';
+import { OpenWindow } from '../utilities/types';
 
 type GridSlot = {
   x: number;
@@ -25,109 +30,83 @@ type DesktopIcon = {
   position: GridSlot;
   icon: JSX.Element;
   gradientId: string;
-  windowContent: React.ReactNode;
-};
-
-type OpenWindow = {
-  id: number;
-  title: string;
-  content: React.ReactNode;
-  zIndex: number;
+  component: JSX.Element;
 };
 
 const gridSize = 100; // Size of each grid cell
 
 type Props = {
-  toggleAppWindow: (id: number) => void;
   currentAppWindow: number;
+  appWindows: OpenWindow[];
+  setAppWindows: React.Dispatch<React.SetStateAction<OpenWindow[]>>;
 };
 
-function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
+function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
   const [icons, setIcons] = useState<DesktopIcon[]>([
     {
-      id: 1,
+      id: 101, // IDs must be unique
       name: 'Bin',
       position: { x: 0, y: 0 },
       icon: <PiTrashBold />,
       gradientId: 'gradient-3',
-      windowContent: (
-        <AppWindow
-          title='Bin'
-          content={<div>Bin Content</div>}
-          onClose={() => {}}
-        />
-      ),
+      component: <Bin onclose={() => {}} />,
     },
     {
-      id: 2,
+      id: 102,
       name: 'About.ME',
       position: { x: 0, y: 100 },
       icon: <PiFileCloudBold />,
       gradientId: 'gradient-8',
-      windowContent: (
-        <AppWindow
-          title='About.ME'
-          content={<div>About Content</div>}
-          onClose={() => {}}
-        />
-      ),
+      component: <About onclose={() => {}} />,
     },
     {
-      id: 3,
+      id: 103,
       name: 'Projects',
       position: { x: 0, y: 200 },
       icon: <PiFolderBold />,
       gradientId: 'gradient-1',
-      windowContent: (
-        <AppWindow
-          title='Projects'
-          content={<div>Projects Content</div>}
-          onClose={() => {}}
-        />
-      ),
+      component: <Projects onclose={() => {}} />,
     },
     {
-      id: 4,
+      id: 104,
       name: 'Repo',
       position: { x: 0, y: 300 },
       icon: <VscGithub />,
       gradientId: 'gradient-2',
-      windowContent: (
-        <AppWindow
-          title='Repo'
-          content={<div>Repo Content</div>}
-          onClose={() => {}}
-        />
-      ),
+      component: <Repo onclose={() => {}} />,
     },
   ]);
 
-  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [highestZIndex, setHighestZIndex] = useState(1);
 
   const openAppWindow = (id: number) => {
-    const app = taskbarApps.find((app) => app.id === id);
+    const app =
+      taskbarApps.find((app) => app.id === id) ||
+      icons.find((icon) => icon.id === id);
     if (!app) return;
 
-    const existingWindow = openWindows.find((window) => window.id === id);
+    const existingWindow = appWindows.find((window) => window.id === id);
 
     if (existingWindow) {
       // If window is already open, bring it to the front by updating its zIndex
-      setOpenWindows((prevWindows) =>
+      setAppWindows((prevWindows) =>
         prevWindows.map((win) =>
           win.id === id ? { ...win, zIndex: highestZIndex } : win
         )
       );
     } else {
       // Create a new window if not already open
-      setOpenWindows((prevWindows) => [
+      setAppWindows((prevWindows) => [
         ...prevWindows,
         {
           id: app.id,
           title: app.name,
-          content: React.createElement(app.component, {
-            onclose: () => closeWindow(app.id),
-          }),
+          content:
+            typeof app.component === 'function'
+              ? React.createElement(app.component, {
+                  onclose: () => closeWindow(app.id),
+                })
+              : null,
           zIndex: highestZIndex,
         },
       ]);
@@ -138,7 +117,7 @@ function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
   };
 
   const closeWindow = (id: number) => {
-    setOpenWindows((prevWindows) => prevWindows.filter((win) => win.id !== id));
+    setAppWindows((prevWindows) => prevWindows.filter((win) => win.id !== id));
   };
 
   // This useEffect will open or bring the window to front when currentAppWindow changes
@@ -183,9 +162,10 @@ function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
   };
 
   const DraggableIcon = ({ icon }: { icon: DesktopIcon }) => {
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
-      id: `icon-${icon.id}`,
-    });
+    const { attributes, listeners, setNodeRef, transform, isDragging } =
+      useDraggable({
+        id: `icon-${icon.id}`,
+      });
 
     const style = {
       position: 'absolute',
@@ -201,10 +181,24 @@ function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
       alignItems: 'center',
       padding: '10px',
       flexDirection: 'column' as 'column',
+      cursor: 'pointer',
     } as React.CSSProperties;
 
+    // Add the onMouseUp to check for actual clicks
+    const handleMouseUp = () => {
+      if (!isDragging) {
+        openAppWindow(icon.id);
+      }
+    };
+
     return (
-      <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...listeners}
+        {...attributes}
+        onMouseUp={handleMouseUp} // Handle click here
+      >
         <DesktopItem
           icon={icon.icon}
           name={icon.name}
@@ -214,7 +208,9 @@ function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
     );
   };
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
+  );
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
@@ -232,7 +228,7 @@ function DesktopArea({ toggleAppWindow, currentAppWindow }: Props) {
           ))}
 
           {/* Render open app windows */}
-          {openWindows.map((window) => (
+          {appWindows.map((window) => (
             <div
               key={window.id}
               className='absolute'

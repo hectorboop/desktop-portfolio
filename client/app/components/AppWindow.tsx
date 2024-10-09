@@ -17,17 +17,17 @@ type Props = {
 const AppWindow = ({ title, content, onClose }: Props) => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [size, setSize] = useState({ width: 600, height: 400 });
+  const [size, setSize] = useState({ width: 800, height: 600 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
 
   const handleMaximize = () => {
     if (isMaximized) {
       setIsMaximized(false);
-      setSize({ width: 600, height: 400 });
-      setPosition({ x: 100, y: 100 });
+      setSize({ width: 800, height: 600 });
+      setPosition({ x: 0, y: 0 });
     } else {
       setIsMaximized(true);
-      setSize({ width: window.innerWidth, height: window.innerHeight - 30 });
+      setSize({ width: window.innerWidth, height: window.innerHeight - 60 });
       setPosition({ x: 0, y: 0 });
     }
   };
@@ -62,18 +62,15 @@ const AppWindow = ({ title, content, onClose }: Props) => {
           width: `${size.width}px`,
           height: `${size.height}px`,
           zIndex: 1000,
-          display: isMinimized ? 'none' : 'block',
+          display: /*isMinimized ? 'none' :*/ 'block', // Fix minimize later
         }}
       >
+        <Gradients />
         {/* Title Bar */}
-        <div className='window-titlebar bg-gray-900 text-white flex justify-between items-center px-2 py-1 rounded-lg'>
-          <div className='flex items-center'>
-            <span className='font-semibold'>{title}</span>
-          </div>
-          <div className='flex items-center space-x-2'>
-            <Gradients />
-            <button onClick={handleMinimize} title='Minimize'>
-              <PiCaretCircleDownFill
+        <div className='window-titlebar bg-gray-900  flex  items-center px-2 py-1 rounded-lg'>
+          <div className='flex items-center space-x-2 '>
+            <button onClick={onClose} title='Close'>
+              <PiXCircleFill
                 style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
               />
             </button>
@@ -82,7 +79,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
               {isMaximized ? (
                 <PiCaretCircleLeftFill
                   style={{
-                    stroke: 'gradient-2',
+                    fill: 'gradient-2',
                     width: '20px',
                     height: '20px',
                   }}
@@ -97,17 +94,20 @@ const AppWindow = ({ title, content, onClose }: Props) => {
                 />
               )}
             </button>
-            <button onClick={onClose} title='Close'>
-              <PiXCircleFill
+            <button onClick={handleMinimize} title='Minimize'>
+              <PiCaretCircleDownFill
                 style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
               />
             </button>
+          </div>
+          <div className='absolute left-1/2 transform translate-x-1/2 items-center'>
+            <span className='font-semibold text-white'>{title}</span>
           </div>
         </div>
 
         {/* Window Content */}
         <div
-          className='bg-white bg-opacity-20 p-4 overflow-auto'
+          className='bg-white bg-opacity-20 p-0 overflow-auto'
           style={{ height: size.height - 30 }}
         >
           {content}

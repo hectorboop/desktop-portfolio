@@ -3,7 +3,15 @@ import React from 'react';
 type Props = { onclose: () => void };
 
 function VSCode({ onclose }: Props) {
-  return <div>VSCode</div>;
+  return (
+    <div className='flex w-full h-full'>
+      <iframe
+        src='https://github1s.com/hectorboop/desktop-portfolio/blob/main/client/app/pages/Desktop.tsx'
+        title='VsCode'
+        className='h-full w-full bg-ub-cool-grey'
+      ></iframe>
+    </div>
+  );
 }
 
 export default VSCode;

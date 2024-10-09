@@ -11,6 +11,7 @@ import {
 } from 'react-icons/pi';
 
 import { taskbarApps } from '../utilities/appData';
+import { OpenWindow } from '../utilities/types';
 
 const gradients = ['gradient-1', 'gradient-2', 'gradient-3']; // List of gradient IDs
 // Randomly pick a gradient
@@ -19,21 +20,25 @@ const getRandomGradient = () => {
 };
 
 type Props = {
+  theme: string;
   toggleStartMenu: () => void;
   isDisabled: boolean;
   isStartMenuOpen: boolean;
   toggleAppWindow: (id: number) => void;
+  appWindows: OpenWindow[];
 };
 
 function TaskBar({
+  theme,
   toggleStartMenu,
   isDisabled,
   isStartMenuOpen,
   toggleAppWindow,
+  appWindows,
 }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const gradientId = getRandomGradient(); // Get random gradient for each icon
 
+  // Update Date
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate(new Date());
@@ -42,11 +47,53 @@ function TaskBar({
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
 
-  const [isFileExplorerOpen, setIsFileExplorerOpen] = useState(false);
+  const [temperature, setTemperature] = useState(0);
+  const [error, setError] = useState('');
 
-  //const toggleFileExplorer = () => {
-  //  setIsFileExplorerOpen(!isFileExplorerOpen);
-  //};
+  // Function to fetch weather data
+  const fetchWeather = async (latitude: any, longitude: any) => {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setTemperature(Math.round(data.current_weather.temperature));
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      setError('Unable to fetch weather data');
+    }
+  };
+
+  // Get user's location using Geolocation API
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchWeather(latitude, longitude); // Fetch weather using user's location
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          setError('Location access denied');
+        }
+      );
+    } else {
+      setError('Geolocation is not supported by this browser.');
+    }
+  };
+
+  // Get user's location on mount and periodically update weather data
+  useEffect(() => {
+    // Initial fetch on mount
+    getUserLocation();
+
+    // Set up interval to fetch weather data every 5 minutes
+    const intervalId = setInterval(() => {
+      getUserLocation(); // Fetch weather again using user's location
+    }, 300000); // 300,000 ms = 5 minutes
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, []);
 
   return (
     <div className='fixed bottom-0 left-0 right-0 h-12 w-full bg-blue-950 bg-opacity-0 backdrop-blur-none flex flex-row  items-center justify-center'>
@@ -73,11 +120,12 @@ function TaskBar({
             )}
           </div>
 
+          {/* Pinned Icons first */}
           {taskbarApps.map((app) => (
             <button
               key={app.id}
               className='hover:bg-gray-700 p-2 rounded-none'
-              aria-label={app.name}
+              title={app.name}
               onClick={() => {
                 toggleAppWindow(app.id);
               }}
@@ -88,13 +136,34 @@ function TaskBar({
               })}
             </button>
           ))}
+
+          {/* Open Windows 
+          {appWindows.map((appWindow) => (
+            <button
+              key={appWindow.id}
+              className='hover:bg-gray-700 p-2 rounded-none'
+              title={appWindow.title}
+              onClick={() => {
+                toggleAppWindow(appWindow.id);
+              }}
+            >
+              <FaFileAlt className='w-8 h-8' />
+            </button>
+          ))}
+            */}
         </div>
       </div>
 
       <div className='fixed left-0 flex items-center text-white px-1 space-x-0 h-full'></div>
       <div className='fixed right-0 flex items-center text-white px-1 space-x-0'>
         <div className='flex flex-row items-end space-x-2 pl-4 px-4 '>
-          <div className='text-5xl sofia text-blue-100'>25°C</div>
+          <div className='text-5xl sofia text-blue-100'>
+            {error
+              ? error
+              : temperature !== null
+              ? `${temperature}°C`
+              : 'Loading...'}
+          </div>
 
           <div className='flex items-center space-x-2'>
             <div className='flex items-center'>

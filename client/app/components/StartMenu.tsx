@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { PiLockKey, PiPower } from 'react-icons/pi';
+import { VscAccount, VscRefresh } from 'react-icons/vsc';
 
 type App = {
   id: number;
@@ -51,23 +53,49 @@ function StartMenu({
     );
   };
 
+  const [isLocked, setIsLocked] = useState(false);
+
   return (
     <>
       {isVisible && (
         <div
-          className={`fixed bottom-0 top-0 left-0 right-0 h-screen w-full overflow-hidden bg-gray-900 bg-opacity-90 backdrop-blur-lg shadow-lg text-white p-6 flex flex-col 
+          className={`fixed bottom-14 left-2 h-[650px] w-[300] rounded-lg overflow-hidden bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg text-white p-6 flex flex-col z-20
           ${isOpen ? 'open-start-menu' : 'close-start-menu'}
           ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Top Left - Change Background Section */}
-          <div className='flex flex-row space-x-8 items-center justify-center'>
-            {/* Image Slider */}
+          <div className='flex flex-row w-full h-14 items-center justify-between space-x-2 space-x-reverse'>
+            <div className='flex flex-row items-center space-x-2'>
+              <VscAccount className='w-8 h-8' />
+              <h2 className='text-xl font-bold'>My Portfolio</h2>
+            </div>
+            <div className='flex flex-row space-x-2'>
+              <button
+                className='bg-transparent hover:bg-gray-600 p-2 rounded-lg'
+                title='Power Off'
+              >
+                <PiPower size={'2rem'} />
+              </button>
+              <button
+                className='bg-transparent hover:bg-gray-600 p-2 rounded-lg'
+                title='Restart'
+              >
+                <VscRefresh size={'2rem'} />
+              </button>
+              <button
+                className='bg-transparent hover:bg-gray-600 p-2 rounded-lg'
+                title='Lock Screen'
+              >
+                <PiLockKey size={'2rem'} />
+              </button>
+            </div>
+          </div>
+          {/* Top Left - Change Background Section 
+          <div className='flex flex-row space-x-8 items-center justify-start'>
             <div className='flex flex-col md:flex'>
-              <div className='relative w-80 flex items-center justify-center'>
-                {/* Left Arrow */}
+              <div className='relative w-72 flex items-center justify-center'>
                 <button
-                  className='absolute left-0 p-2 bg-gray-800 hover:bg-gray-700'
+                  className='absolute left-0 px-2 py-12 bg-gray-800 hover:bg-gray-700 rounded-lg'
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent StartMenu from closing on click
                     prevBackground();
@@ -76,7 +104,6 @@ function StartMenu({
                   ◀
                 </button>
 
-                {/* Current Image */}
                 <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
                   <img
                     src={backgrounds[currentBackground].preview}
@@ -92,9 +119,8 @@ function StartMenu({
                   />
                 </div>
 
-                {/* Right Arrow */}
                 <button
-                  className='absolute right-0 p-2 bg-gray-800 hover:bg-gray-700'
+                  className='absolute right-0 px-2 py-12 bg-gray-800 hover:bg-gray-700 rounded-lg'
                   onClick={(e) => {
                     e.stopPropagation();
                     nextBackground();
@@ -107,55 +133,11 @@ function StartMenu({
                 Background
               </h1>
             </div>
+          </div>*/}
 
-            {/* Image Slider */}
-            <div className='flex flex-col md:flex'>
-              <div className='relative w-80 flex items-center justify-center'>
-                {/* Left Arrow */}
-                <button
-                  className='absolute left-0 p-2 bg-gray-800 hover:bg-gray-700'
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent StartMenu from closing on click
-                    prevBackground();
-                  }}
-                >
-                  ◀
-                </button>
-
-                {/* Current Image */}
-                <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
-                  <img
-                    src={backgrounds[currentBackground].preview}
-                    alt={backgrounds[currentBackground].name}
-                    className='w-full h-full object-cover'
-                  />
-                  <button
-                    className='absolute inset-0 bg-transparent'
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      changeBackground(backgrounds[currentBackground].url);
-                    }}
-                  />
-                </div>
-
-                {/* Right Arrow */}
-                <button
-                  className='absolute right-0 p-2 bg-gray-800 hover:bg-gray-700'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextBackground();
-                  }}
-                >
-                  ▶
-                </button>
-              </div>
-              <h1 className='text-base font-thin self-center py-1'>Theme</h1>
-            </div>
-          </div>
-
-          {/* Apps Section */}
-          <div className='px-60'>
-            <div className='mt-8 grid grid-cols-10 gap-6 p-6'>
+          {/* Apps Section 
+          <div className='px-2'>
+            <div className='mt-8 grid grid-cols-5 gap-6 p-6'>
               {apps.map((app) => (
                 <div
                   key={app.id}
@@ -171,6 +153,62 @@ function StartMenu({
                   <span className='text-center text-sm'>{app.name}</span>
                 </div>
               ))}
+            </div>
+          </div>*/}
+
+          <div className='flex flex-row space-x-8 p-1'>
+            {/* Applications List */}
+            <div className='flex flex-col items-start  rounded-lg min-w-56'>
+              <h2 className='text-lg font-bold mb-2'>Applications</h2>
+              <div className='flex flex-col space-y-2'>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-blue-500' />
+                  <span>My Computer</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-blue-500' />
+                  <span>Control Panel</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-blue-500' />
+                  <span>Notepad</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-blue-500' />
+                  <span>Paint</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-blue-500' />
+                  <span>Calculator</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Folders List */}
+            <div className='flex flex-col items-start  rounded-lg min-w-56'>
+              <h2 className='text-lg font-bold mb-2'>Folders</h2>
+              <div className='flex flex-col space-y-2'>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                  <span>Documents</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                  <span>Pictures</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                  <span>Music</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                  <span>Videos</span>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                  <span>Downloads</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

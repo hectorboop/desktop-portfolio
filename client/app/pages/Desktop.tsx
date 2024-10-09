@@ -4,60 +4,32 @@ import TaskBar from '../components/TaskBar';
 import { preloadImages } from '../utilities/preloadImages';
 
 import StartMenu from '../components/StartMenu';
-import {
-  FaChrome,
-  FaFile,
-  FaCalculator,
-  FaWater,
-  FaMountain,
-  FaSun,
-} from 'react-icons/fa'; // Example icons
+import { FaChrome, FaFile, FaCalculator } from 'react-icons/fa'; // Example icons
 import DesktopArea from '../components/DesktopArea';
+
+import { backgroundOptions } from '../utilities/backgroundOptions';
+import { OpenWindow } from '../utilities/types';
+import SplashScreen from '../components/SplashScreen';
 
 type Props = {};
 
 function Desktop({}: Props) {
-  // Define your list of background images
-  const backgroundOptions = [
-    {
-      id: 1,
-      url: '/images/dune.jpg',
-      name: 'Dune',
-      preview: '/images/dune.jpg',
-    },
-    {
-      id: 2,
-      url: '/images/purplehills.jpg',
-      name: 'Purplehills',
-      preview: '/images/purplehills.jpg',
-    },
-    {
-      id: 3,
-      url: '/images/redhills.jpg',
-      name: 'Redhills',
-      preview: '/images/redhills.jpg',
-    },
-    {
-      id: 4,
-      url: '/images/redsunset.jpg',
-      name: 'Redsunset',
-      preview: '/images/redsunset.jpg',
-    },
-  ];
-
   // State to track the currently selected background
   const [selectedBackground, setSelectedBackground] = useState(
     backgroundOptions[0].url
   );
 
-  const apps = [
+  const startMenuApps = [
     { id: 1, name: 'Browser', icon: <FaChrome size={'4em'} /> },
     { id: 2, name: 'Files', icon: <FaFile size={'4em'} /> },
     { id: 3, name: 'Calculator', icon: <FaCalculator size={'4em'} /> },
     // Add more apps as necessary
   ];
 
-  const [currentAppWindow, setCurrentAppWindow] = useState(1);
+  const [currentAppWindow, setCurrentAppWindow] = useState(0);
+  const [appWindows, setAppWindows] = useState<OpenWindow[]>([]);
+
+  const [theme, setTheme] = useState('dark');
 
   const toggleAppWindow = (id: number) => {
     setCurrentAppWindow(id);
@@ -113,6 +85,28 @@ function Desktop({}: Props) {
     localStorage.setItem('selectedBackground', imageUrl); // Save the selected background to localStorage
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Show loading screen for 10 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Hide loading screen after 10 seconds
+    }, 10000);
+
+    return () => clearTimeout(timer); // Cleanup timer on component unmount
+  }, []);
+
+  // Show loading screen if isLoading is true
+  if (isLoading) {
+    return (
+      <SplashScreen
+        onFinish={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+    );
+  }
+
   return (
     <div className='flex flex-col items-center justify-center relative w-full h-screen overflow-hidden'>
       <div className='fixed bottom-0 top-0 left-0 right-0 over w-screen h-screen overflow-hidden'>
@@ -127,14 +121,15 @@ function Desktop({}: Props) {
         {/* Optional: Desktop content here */}
         <div className='absolute bottom-12 top-0 right-0 left-0 inset-0 flex items-center justify-center text-white'>
           <DesktopArea
-            toggleAppWindow={toggleAppWindow}
             currentAppWindow={currentAppWindow}
+            appWindows={appWindows}
+            setAppWindows={setAppWindows}
           />
         </div>
 
         {/* Full-screen Start Menu */}
         <StartMenu
-          apps={apps}
+          apps={startMenuApps}
           isOpen={isStartMenuOpen}
           onClose={toggleStartMenu}
           isVisible={isStartMenuVisible}
@@ -146,10 +141,12 @@ function Desktop({}: Props) {
 
       <div className='h-12'>
         <TaskBar
+          theme={theme}
           toggleStartMenu={toggleStartMenu}
           isDisabled={isAnimationRunning}
           isStartMenuOpen={isStartMenuOpen}
           toggleAppWindow={toggleAppWindow}
+          appWindows={appWindows}
         />
       </div>
     </div>
