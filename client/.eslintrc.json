@@ -12,7 +12,9 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/prefer-as-const": "off",
     "react-hooks/exhaustive-deps": "off",
-    "@typescript-eslint/ban-types": "off" // Exept this one
+    "@typescript-eslint/ban-types": "off", // Exept this one
+    "allowObjectTypes": true,
+    "@typescript-eslint/no-empty-function": "off"
   },
   "plugins": ["@typescript-eslint", "react"],
   "parserOptions": {
