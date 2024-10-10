@@ -1,6 +1,27 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
-import { PiLockKey, PiPower } from 'react-icons/pi';
-import { VscAccount, VscRefresh } from 'react-icons/vsc';
+import { HiUserGroup } from 'react-icons/hi';
+import {
+  PiCalculator,
+  PiDesktop,
+  PiLockKey,
+  PiNotepad,
+  PiPaintBrushHousehold,
+  PiPower,
+} from 'react-icons/pi';
+import {
+  RiFolderCloudLine,
+  RiFolderDownloadLine,
+  RiFolderImageLine,
+  RiFolderMusicLine,
+  RiFolderVideoLine,
+  RiSidebarUnfoldLine,
+} from 'react-icons/ri';
+import { SlSupport } from 'react-icons/sl';
+import { VscAccount, VscRefresh, VscSettingsGear } from 'react-icons/vsc';
+import Gradients from './Gradients';
+import { GiSuits } from 'react-icons/gi';
+import { MdOutlineEmail } from 'react-icons/md';
 
 type App = {
   id: number;
@@ -26,13 +47,10 @@ type Props = {
 };
 
 function StartMenu({
-  apps,
   backgrounds,
   changeBackground,
   isOpen,
-  onClose,
   isVisible,
-  selectedBackground,
 }: Props) {
   const [currentBackground, setCurrentBackground] = useState(0);
 
@@ -59,15 +77,16 @@ function StartMenu({
     <>
       {isVisible && (
         <div
-          className={`fixed bottom-14 left-2 h-[650px] w-[300] rounded-lg overflow-hidden bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg text-white p-6 flex flex-col z-20
+          className={`fixed bottom-14 left-2 h-[650px] w-[300] rounded-lg overflow-hidden bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg border border-solid text-white p-6 flex flex-col z-20
           ${isOpen ? 'open-start-menu' : 'close-start-menu'}
           ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className='flex flex-row w-full h-14 items-center justify-between space-x-2 space-x-reverse'>
-            <div className='flex flex-row items-center space-x-2'>
-              <VscAccount className='w-8 h-8' />
-              <h2 className='text-xl font-bold'>My Portfolio</h2>
+          <Gradients />
+          <div className='flex flex-row w-full h-14 items-center justify-between space-x-4'>
+            <div className='flex flex-row items-center space-x-2 px-2'>
+              <VscAccount className='w-8 h-8 ' />
+              <h2 className='text-xl font-bold px-4'>My Portfolio</h2>
             </div>
             <div className='flex flex-row space-x-2'>
               <button
@@ -90,124 +109,180 @@ function StartMenu({
               </button>
             </div>
           </div>
-          {/* Top Left - Change Background Section 
-          <div className='flex flex-row space-x-8 items-center justify-start'>
-            <div className='flex flex-col md:flex'>
-              <div className='relative w-72 flex items-center justify-center'>
-                <button
-                  className='absolute left-0 px-2 py-12 bg-gray-800 hover:bg-gray-700 rounded-lg'
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent StartMenu from closing on click
-                    prevBackground();
-                  }}
-                >
-                  ◀
-                </button>
 
-                <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
-                  <img
-                    src={backgrounds[currentBackground].preview}
-                    alt={backgrounds[currentBackground].name}
-                    className='w-full h-full object-cover'
-                  />
-                  <button
-                    className='absolute inset-0 bg-transparent'
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      changeBackground(backgrounds[currentBackground].url);
-                    }}
-                  />
-                </div>
-
-                <button
-                  className='absolute right-0 px-2 py-12 bg-gray-800 hover:bg-gray-700 rounded-lg'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextBackground();
-                  }}
-                >
-                  ▶
-                </button>
-              </div>
-              <h1 className='text-base font-extralight self-center py-1'>
-                Background
-              </h1>
-            </div>
-          </div>*/}
-
-          {/* Apps Section 
-          <div className='px-2'>
-            <div className='mt-8 grid grid-cols-5 gap-6 p-6'>
-              {apps.map((app) => (
-                <div
-                  key={app.id}
-                  className='flex flex-col items-center justify-center space-y-2 p-4 cursor-pointer'
-                  style={{ width: '80px' }}
-                >
-                  <div
-                    className='w-12 h-12 flex items-center justify-center rounded-full'
-                    style={{ width: '64px', height: '64px' }}
-                  >
-                    {app.icon}
-                  </div>
-                  <span className='text-center text-sm'>{app.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>*/}
-
-          <div className='flex flex-row space-x-8 p-1'>
+          <div className='flex flex-row space-x-8 border border-transparent rounded-lg mb-2'>
             {/* Applications List */}
-            <div className='flex flex-col items-start  rounded-lg min-w-56'>
-              <h2 className='text-lg font-bold mb-2'>Applications</h2>
-              <div className='flex flex-col space-y-2'>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-blue-500' />
-                  <span>My Computer</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-blue-500' />
-                  <span>Control Panel</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-blue-500' />
+            <div className='flex flex-col items-start rounded-lg min-w-56'>
+              <div className='flex flex-col space-y-1'>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <MdOutlineEmail
+                    className='w-8 h-8'
+                    style={{ fill: 'url(#gradient-11)' }}
+                  />
+                  <span>Email</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <PiNotepad
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-11)' }}
+                  />
                   <span>Notepad</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-blue-500' />
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <PiPaintBrushHousehold
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-11)' }}
+                  />
                   <span>Paint</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-blue-500' />
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <PiCalculator
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-11)' }}
+                  />
                   <span>Calculator</span>
-                </div>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <GiSuits
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-11)' }}
+                  />
+                  <span>Solitaire</span>
+                </button>
               </div>
             </div>
 
             {/* Folders List */}
-            <div className='flex flex-col items-start  rounded-lg min-w-56'>
-              <h2 className='text-lg font-bold mb-2'>Folders</h2>
-              <div className='flex flex-col space-y-2'>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-yellow-500' />
+            <div className='flex flex-col items-start rounded-lg min-w-56 min-h-72'>
+              <div className='flex flex-col space-y-1  '>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <PiDesktop
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
+                  <span>This PC</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiFolderCloudLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
                   <span>Documents</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-yellow-500' />
-                  <span>Pictures</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-yellow-500' />
-                  <span>Music</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-yellow-500' />
-                  <span>Videos</span>
-                </div>
-                <div className='flex items-center space-x-2'>
-                  <VscAccount className='w-8 h-8 text-yellow-500' />
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiFolderDownloadLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
                   <span>Downloads</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiFolderMusicLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
+                  <span>Music</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiFolderImageLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
+                  <span>Pictures</span>
+                </button>
+
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiFolderVideoLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-12)' }}
+                  />
+                  <span>Videos</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-row space-x-8  rounded-lg h-full pt-6'>
+            <div className='flex flex-col items-start rounded-lg min-w-56'>
+              <div className='flex flex-col space-y-1 '>
+                <div className='flex flex-row space-x-8 items-center justify-start'>
+                  <div className='flex flex-col md:flex border border-solid border-neutral-600 rounded-lg'>
+                    <div className='relative w-[280px] flex items-center justify-center py-4 '>
+                      <button
+                        className='flex p-1'
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent StartMenu from closing on click
+                          prevBackground();
+                        }}
+                      >
+                        ◀
+                      </button>
+
+                      <div className='overflow-hidden w-52 h-32 rounded-lg relative'>
+                        <Image
+                          src={backgrounds[currentBackground].preview}
+                          alt={backgrounds[currentBackground].name}
+                          layout='fill' // This makes the image take the full width and height of its container
+                          objectFit='cover' // This preserves the aspect ratio while covering the entire area
+                          className='w-full h-full'
+                        />
+                        <button
+                          className='absolute inset-0 bg-transparent'
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            changeBackground(
+                              backgrounds[currentBackground].url
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <button
+                        className='flex p-1'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextBackground();
+                        }}
+                      >
+                        ▶
+                      </button>
+                    </div>
+                    <h1 className='text-base font-extralight self-center py-1'>
+                      Desktop Wallpaper
+                    </h1>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className='flex flex-col items-start rounded-lg min-w-56'>
+              <div className='flex flex-col space-y-1 '>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <HiUserGroup
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-10)' }}
+                  />
+                  <span>Account</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <VscSettingsGear
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-10)' }}
+                  />
+                  <span>Settings...</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <SlSupport
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-10)' }}
+                  />
+                  <span>Support</span>
+                </button>
+                <button className='flex items-center space-x-2 rounded-lg py-2 pl-2 pr-40 hover:bg-gray-600 hover:bg-opacity-50'>
+                  <RiSidebarUnfoldLine
+                    className='w-8 h-8 '
+                    style={{ fill: 'url(#gradient-10)' }}
+                  />
+                  <span>Run</span>
+                </button>
               </div>
             </div>
           </div>

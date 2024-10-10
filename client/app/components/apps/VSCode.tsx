@@ -1,8 +1,8 @@
 import React from 'react';
 
-type Props = { onclose: () => void };
+type Props = {};
 
-function VSCode({ onclose }: Props) {
+function VSCode({}: Props) {
   return (
     <div className='flex w-full h-full'>
       <iframe

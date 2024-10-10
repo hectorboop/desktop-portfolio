@@ -67,7 +67,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
       >
         <Gradients />
         {/* Title Bar */}
-        <div className='window-titlebar bg-gray-900  flex  items-center px-2 py-1 rounded-lg'>
+        <div className='window-titlebar bg-gray-900 flex flex-row items-center space-x-1 px-2 py-1 rounded-lg'>
           <div className='flex items-center space-x-2 '>
             <button onClick={onClose} title='Close'>
               <PiXCircleFill
@@ -100,7 +100,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
               />
             </button>
           </div>
-          <div className='absolute left-1/2 transform translate-x-1/2 items-center'>
+          <div className='flex-grow flex justify-center items-center'>
             <span className='font-semibold text-white'>{title}</span>
           </div>
         </div>

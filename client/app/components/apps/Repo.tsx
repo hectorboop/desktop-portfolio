@@ -1,8 +1,8 @@
 import React from 'react';
 
-type Props = { onclose: () => void };
+type Props = {};
 
-function Repo({ onclose }: Props) {
+function Repo({}: Props) {
   return <div>Browser</div>;
 }
 

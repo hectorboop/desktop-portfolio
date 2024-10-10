@@ -1,8 +1,8 @@
 import React from 'react';
 
-type Props = { onclose: () => void };
+type Props = {};
 
-function Bin({ onclose }: Props) {
+function Bin({}: Props) {
   return <div>Browser</div>;
 }
 

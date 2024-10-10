@@ -4,20 +4,14 @@ import { TfiLayoutGrid3Alt } from 'react-icons/tfi';
 import Gradients from '../components/Gradients';
 
 import {
-  PiBatteryPlusVerticalThin,
-  PiBluetoothThin,
-  PiCellSignalFullThin,
-  PiSpeakerHighThin,
+  PiBatteryPlusVertical,
+  PiBluetooth,
+  PiCellSignalFull,
+  PiSpeakerHigh,
 } from 'react-icons/pi';
 
 import { taskbarApps } from '../utilities/appData';
 import { OpenWindow } from '../utilities/types';
-
-const gradients = ['gradient-1', 'gradient-2', 'gradient-3']; // List of gradient IDs
-// Randomly pick a gradient
-const getRandomGradient = () => {
-  return gradients[Math.floor(Math.random() * gradients.length)];
-};
 
 type Props = {
   theme: string;
@@ -29,13 +23,12 @@ type Props = {
 };
 
 function TaskBar({
-  theme,
   toggleStartMenu,
   isDisabled,
   isStartMenuOpen,
   toggleAppWindow,
-  appWindows,
-}: Props) {
+}: //appWindows,
+Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Update Date
@@ -203,29 +196,38 @@ function TaskBar({
           </div>
 
           <div className='flex items-center  border-gray-600 py-2'>
-            <PiBatteryPlusVerticalThin
-              //style={{ fill: 'url(#blue-gradient)' }}
-              className='w-8 h-8'
+            <PiBatteryPlusVertical
+              className='w-8 h-8 hover:brightness-75 transition duration-150'
+              style={{ fill: 'url(#gradient-13)' }}
             />
           </div>
           <div className='flex items-center  border-gray-600 py-2'>
-            <PiBluetoothThin className='w-8 h-8 ' />
+            <PiBluetooth
+              className='w-8 h-8 hover:brightness-75 transition duration-150'
+              style={{ fill: 'url(#gradient-13)' }}
+            />
           </div>
           <div className='flex items-center  border-gray-600 py-2'>
-            <PiCellSignalFullThin className='w-8 h-8 ' />
+            <PiCellSignalFull
+              className='w-8 h-8 hover:brightness-75 transition duration-150'
+              style={{ fill: 'url(#gradient-13)' }}
+            />
           </div>
           <div className='flex items-center border-gray-600 py-2'>
-            <PiSpeakerHighThin className='w-8 h-8' />
+            <PiSpeakerHigh
+              className='w-8 h-8 hover:brightness-75 transition duration-150'
+              style={{ fill: 'url(#gradient-13)' }}
+            />
           </div>
 
-          <div className='text-5xl font-light sofia text-blue-300'>
+          <div className='text-5xl font-light sofia text-white'>
             {currentDate.toLocaleDateString([], {
               //weekday: 'short',
               month: 'short',
               day: 'numeric',
             })}
           </div>
-          <div className='text-5xl font-bold sofia text-blue-400'>
+          <div className='text-5xl font-bold sofia bg-gradient-to-r from-teal-700 to-teal-400 bg-clip-text text-transparent'>
             {currentDate.toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',

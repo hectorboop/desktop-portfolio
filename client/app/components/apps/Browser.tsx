@@ -7,9 +7,9 @@ import {
 import { BsSearch } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa';
 
-type Props = { onclose: () => void };
+type Props = {};
 
-function Browser({ onclose }: Props) {
+function Browser({}: Props) {
   const url = 'https://www.google.com/webhp?igu=1';
   const name = 'Rushane Wilson';
 
@@ -31,7 +31,7 @@ function Browser({ onclose }: Props) {
           </div>
           <div className='flex justify-center items-center ml-6'>
             <div className='bg-blue-500 text-white rounded-full w-6 h-6 flex justify-center items-center'>
-              {'name' && (
+              {name && (
                 <div className='text-white text-md font-normal'>
                   {generateInitials(name)}
                 </div>

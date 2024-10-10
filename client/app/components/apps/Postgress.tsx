@@ -1,8 +1,8 @@
 import React from 'react';
 
-type Props = { onclose: () => void };
+type Props = {};
 
-function Postgress({ onclose }: Props) {
+function Postgress({}: Props) {
   return (
     <div className='flex w-full h-full'>
       <iframe

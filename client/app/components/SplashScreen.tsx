@@ -40,14 +40,28 @@ function SplashScreen({ onFinish }: Props) {
         isFadingOut ? 'opacity-0 -translate-y-12' : 'opacity-100 translate-y-0'
       }`}
     >
-      <h1 className='text-4xl mb-4'>Portfolio App by Rushane Wilson</h1>
-      <div className='w-64 h-4 bg-gray-800 rounded-full overflow-hidden'>
-        <div
-          className='bg-blue-500 h-full transition-all duration-100 ease-linear'
-          style={{ width: `${progress}%` }}
-        ></div>
+      <div className='flex flex-col items-center justify-between h-[200px] w-[700px] bg-transparent border border-white rounded-lg'>
+        <h1 className='text-4xl mb-4 mt-8 font-mono'>
+          Portfolio App by Rushane Wilson
+        </h1>
+
+        <div className='flex flex-col items-center justify-center py-4'>
+          <div className='w-96 h-6 bg-gray-800 rounded-full overflow-hidden'>
+            <div
+              className='bg-blue-600 h-full transition-all duration-100 ease-linear'
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <p className='mt-2 text-sm font-mono'>
+            Starting Desktop - {progress}%
+          </p>
+        </div>
       </div>
-      <p className='mt-2'>{progress}%</p>
+      <p className='absolute bottom-0 mt-2 font-mono text-blue-400 text-wrap w-96 text-center'>
+        Please note that this is a work in progress and may not be fully
+        functional. In addition, updates are pushed every week to fix issues and
+        add functionality
+      </p>
     </div>
   );
 }

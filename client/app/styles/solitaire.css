@@ -1,0 +1,32 @@
+.solitaire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tableau {
+  display: flex;
+}
+
+.pile {
+  margin: 5px;
+}
+
+.card {
+  width: 50px;
+  height: 75px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.face-up {
+  background-color: #fff;
+}
+
+.face-down {
+  background-color: #000;
+  color: #fff;
+}

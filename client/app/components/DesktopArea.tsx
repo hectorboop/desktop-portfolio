@@ -49,7 +49,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       position: { x: 0, y: 0 },
       icon: <PiTrashBold />,
       gradientId: 'gradient-3',
-      component: <Bin onclose={() => {}} />,
+      component: <Bin />,
     },
     {
       id: 102,
@@ -57,7 +57,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       position: { x: 0, y: 100 },
       icon: <PiFileCloudBold />,
       gradientId: 'gradient-8',
-      component: <About onclose={() => {}} />,
+      component: <About />,
     },
     {
       id: 103,
@@ -65,7 +65,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       position: { x: 0, y: 200 },
       icon: <PiFolderBold />,
       gradientId: 'gradient-1',
-      component: <Projects onclose={() => {}} />,
+      component: <Projects />,
     },
     {
       id: 104,
@@ -73,7 +73,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       position: { x: 0, y: 300 },
       icon: <VscGithub />,
       gradientId: 'gradient-2',
-      component: <Repo onclose={() => {}} />,
+      component: <Repo />,
     },
   ]);
 
@@ -103,9 +103,12 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
           title: app.name,
           content:
             typeof app.component === 'function'
-              ? React.createElement(app.component, {
-                  onclose: () => closeWindow(app.id),
-                })
+              ? React.createElement(
+                  app.component as React.ComponentType<{ onClose: () => void }>,
+                  {
+                    onClose: () => closeWindow(app.id),
+                  }
+                )
               : null,
           zIndex: highestZIndex,
         },

@@ -1,11 +1,5 @@
 import React from 'react';
 
-import {
-  profileDescription,
-  educationExperience,
-  githubRepos,
-} from '../data/About';
-
 type Props = {};
 
 function About({}: Props) {

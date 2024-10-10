@@ -9,13 +9,11 @@ const Gradients = () => {
         <stop stopColor='#f7ff0a' offset='0%' />
         <stop stopColor='#0a607b' offset='100%' />
       </linearGradient>
-
       {/* Gradient 2 */}
       <linearGradient id='gradient-2' x1='0%' y1='0%' x2='100%' y2='100%'>
         <stop stopColor='#ff0080' offset='0%' />
         <stop stopColor='#7928ca' offset='100%' />
       </linearGradient>
-
       {/* Gradient 3 */}
       <linearGradient id='gradient-3' x1='100%' y1='100%' x2='0%' y2='0%'>
         <stop stopColor='#007cf0' offset='0%' />
@@ -26,37 +24,51 @@ const Gradients = () => {
         <stop stopColor='#ff7e5f' offset='0%' />
         <stop stopColor='#feb47b' offset='100%' />
       </linearGradient>
-
       {/* Gradient 5 */}
       <linearGradient id='gradient-5' x1='100%' y1='0%' x2='0%' y2='100%'>
         <stop stopColor='#34e89e' offset='0%' />
         <stop stopColor='#0f3443' offset='100%' />
       </linearGradient>
-
       {/* Gradient 6 */}
       <linearGradient id='gradient-6' x1='0%' y1='0%' x2='100%' y2='100%'>
         <stop stopColor='#d53369' offset='0%' />
         <stop stopColor='#daae51' offset='100%' />
       </linearGradient>
-
       {/* Gradient 7 */}
       <linearGradient id='gradient-7' x1='0%' y1='100%' x2='100%' y2='0%'>
         <stop stopColor='#30cfd0' offset='0%' />
         <stop stopColor='#330867' offset='100%' />
       </linearGradient>
-
       {/* Gradient 8 */}
       <linearGradient id='gradient-8' x1='0%' y1='0%' x2='100%' y2='100%'>
         <stop stopColor='#f12711' offset='0%' />
         <stop stopColor='#f5af19' offset='100%' />
       </linearGradient>
-
       {/* Gradient 9 */}
       <linearGradient id='gradient-9' x1='0%' y1='100%' x2='100%' y2='0%'>
         <stop stopColor='#8e2de2' offset='0%' />
         <stop stopColor='#4a00e0' offset='100%' />
       </linearGradient>
-
+      {/* Gradient 10 */}
+      <linearGradient id='gradient-10' x1='100%' y1='100%' x2='0%' y2='0%'>
+        <stop stopColor='#00ad93' offset='0%' />
+        <stop stopColor='#003b32' offset='100%' />
+      </linearGradient>
+      {/* Gradient 11 */}
+      <linearGradient id='gradient-11' x1='0%' y1='100%' x2='100%' y2='0%'>
+        <stop stopColor='#ff9d00' offset='0%' />
+        <stop stopColor='#fff3ad' offset='100%' />
+      </linearGradient>
+      {/* Gradient 12 */}
+      <linearGradient id='gradient-12' x1='100%' y1='100%' x2='0%' y2='0%'>
+        <stop stopColor='#0036a1' offset='0%' />
+        <stop stopColor='#99bbff' offset='100%' />
+      </linearGradient>
+      \{/* Gradient 13 */}
+      <linearGradient id='gradient-13' x1='100%' y1='0%' x2='0%' y2='100%'>
+        <stop stopColor='#ffffff' offset='0%' />
+        <stop stopColor='#0f3443' offset='100%' />
+      </linearGradient>
       {/* Add more gradients as needed */}
       <linearGradient
         id='start-menu-icon-gradient'
