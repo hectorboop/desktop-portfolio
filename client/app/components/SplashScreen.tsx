@@ -36,31 +36,28 @@ function SplashScreen({ onFinish }: Props) {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center h-screen bg-gray-900 text-white transition-all duration-1000 ease-in-out ${
+      className={`flex flex-col items-center justify-center h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white transition-all duration-1000 ease-in-out ${
         isFadingOut ? 'opacity-0 -translate-y-12' : 'opacity-100 translate-y-0'
       }`}
     >
-      <div className='flex flex-col items-center justify-between h-[200px] w-[700px] bg-transparent border border-white rounded-lg'>
+      <div className='flex flex-col items-center justify-center h-[200px] w-[700px]'>
         <h1 className='text-4xl mb-4 mt-8 font-mono'>
           Portfolio App by Rushane Wilson
         </h1>
 
-        <div className='flex flex-col items-center justify-center py-4'>
-          <div className='w-96 h-6 bg-gray-800 rounded-full overflow-hidden'>
+        <div className='relative flex items-center justify-center py-4 w-full'>
+          <div className='w-full h-4 rounded-full overflow-hidden bg-gray-700'>
             <div
-              className='bg-blue-600 h-full transition-all duration-100 ease-linear'
+              className='h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-100'
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <p className='mt-2 text-sm font-mono'>
-            Starting Desktop - {progress}%
-          </p>
         </div>
       </div>
       <p className='absolute bottom-0 mt-2 font-mono text-blue-400 text-wrap w-96 text-center'>
         Please note that this is a work in progress and may not be fully
         functional. In addition, updates are pushed every week to fix issues and
-        add functionality
+        add functionality.
       </p>
     </div>
   );

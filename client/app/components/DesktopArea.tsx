@@ -110,28 +110,25 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
         }
       } else {
         // Create a new window if not already open
-        return [
-          ...prevWindows,
-          {
-            id: app.id,
-            title: app.name,
-            icon: app.icon,
-            gradient: app.gradient,
-            content:
-              typeof app.component === 'function'
-                ? React.createElement(
-                    app.component as React.ComponentType<{
-                      onClose: () => void;
-                    }>,
-                    {
-                      onClose: () => closeWindow(app.id),
-                    }
-                  )
-                : app.component,
-            zIndex: highestZIndex,
-            minimized: false, // New window starts unminimized
-          },
-        ];
+        const newWindow: OpenWindow = {
+          id: app.id,
+          title: app.name,
+          icon: app.icon as JSX.Element, // Ensure this is of type JSX.Element
+          gradient: app.gradient, // Assuming this is a string
+          content:
+            typeof app.component === 'function'
+              ? React.createElement(
+                  app.component as React.ComponentType<{ onClose: () => void }>,
+                  {
+                    onClose: () => closeWindow(app.id),
+                  }
+                )
+              : (app.component as JSX.Element), // Ensure component is a JSX.Element
+          zIndex: highestZIndex,
+          minimized: false, // New window starts unminimized
+        };
+
+        return [...prevWindows, newWindow]; // Return the new array with the new window
       }
     });
 
