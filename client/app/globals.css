@@ -170,3 +170,38 @@ body {
   background-color: #000;
   color: #fff;
 }
+
+/* Apply the styles globally or to a specific class */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar */
+  height: 6px; /* For horizontal scrollbars if needed */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3); /* Scroll thumb color */
+  border-radius: 10px; /* Rounded ends for the scrollbar thumb */
+  border: 2px solid transparent; /* Space around the thumb */
+  background-clip: padding-box; /* To prevent the background from being clipped by the border */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Faint background color for the track */
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); /* Inset shadow for the track */
+  border-radius: 10px; /* Rounded track corners */
+}
+
+/* Remove scrollbar arrows on WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Firefox customization */
+.custom-scrollbar {
+  scrollbar-width: thin; /* Makes scrollbar thin in Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1); /* Thumb and track colors in Firefox */
+}
+
+.custom-scrollbar::-moz-scrollbar-track {
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); /* Inset shadow for Firefox */
+  border-radius: 10px;
+}

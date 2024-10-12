@@ -15,15 +15,16 @@ import Postgress from '../components/apps/Postgress';
 import MongoDB from '../components/apps/MongoDB';
 import Postman from '../components/apps/Postman';
 import CodeWars from '../components/apps/CodeWars';
-import { VscTerminalPowershell } from 'react-icons/vsc';
+import { PiTerminalWindow } from 'react-icons/pi';
+import Terminal from '../components/apps/Terminal';
 
 export const taskbarApps = [
   {
     id: 11,
     name: 'Terminal',
-    icon: VscTerminalPowershell,
+    icon: PiTerminalWindow,
     gradient: 'gradient-3',
-    component: Explorer,
+    component: Terminal,
   },
   {
     id: 1,
@@ -46,6 +47,7 @@ export const taskbarApps = [
     gradient: 'gradient-3',
     component: VSCode,
   },
+  /*
   {
     id: 4,
     name: 'Docker',
@@ -81,4 +83,5 @@ export const taskbarApps = [
     gradient: 'gradient-8',
     component: CodeWars,
   },
+  */
 ];

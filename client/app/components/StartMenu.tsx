@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { HiUserGroup } from 'react-icons/hi';
 import {
   PiCalculator,
@@ -51,8 +51,10 @@ function StartMenu({
   changeBackground,
   isOpen,
   isVisible,
+  onClose,
 }: Props) {
   const [currentBackground, setCurrentBackground] = useState(0);
+  const menuRef = useRef<HTMLDivElement>(null); // Ref to track the StartMenu element
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedUrl = event.target.value;
@@ -73,11 +75,28 @@ function StartMenu({
 
   const [isLocked, setIsLocked] = useState(false);
 
+  // Effect to close StartMenu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        onClose(); // Close the StartMenu
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <>
       {isVisible && (
         <div
-          className={`fixed bottom-14 left-2 h-[650px] w-[300] rounded-lg overflow-hidden bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg border border-solid text-white p-6 flex flex-col z-20
+          className={`fixed bottom-14 left-2 h-[650px] w-[300] rounded-lg overflow-hidden bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg border border-solid border-black text-white p-6 flex flex-col z-20
           ${isOpen ? 'open-start-menu' : 'close-start-menu'}
           ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           onClick={(e) => e.stopPropagation()}

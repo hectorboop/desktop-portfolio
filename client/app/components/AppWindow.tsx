@@ -36,18 +36,6 @@ const AppWindow = ({ title, content, onClose }: Props) => {
     setIsMinimized(!isMinimized);
   };
 
-  const handleResize = (e: React.MouseEvent, direction: string) => {
-    const newSize = { ...size };
-
-    if (direction === 'right') {
-      newSize.width = e.clientX - position.x;
-    } else if (direction === 'bottom') {
-      newSize.height = e.clientY - position.y;
-    }
-
-    setSize(newSize);
-  };
-
   return (
     <Draggable
       handle='.window-titlebar'
@@ -57,21 +45,25 @@ const AppWindow = ({ title, content, onClose }: Props) => {
       }
     >
       <div
-        className='absolute bg-gray-800 bg-opacity-70 shadow-lg border border-gray-300 z-10 rounded-lg'
+        className='absolute  border-black z-10 rounded-lg bg-gray-900 bg-opacity-60 backdrop-blur-lg shadow-lg border border-solid text-white'
         style={{
           width: `${size.width}px`,
           height: `${size.height}px`,
           zIndex: 1000,
-          display: /*isMinimized ? 'none' :*/ 'block', // Fix minimize later
+          display: 'block', // Adjust for minimize logic if needed
         }}
       >
         <Gradients />
         {/* Title Bar */}
-        <div className='window-titlebar bg-gray-900 flex flex-row items-center space-x-1 px-2 py-1 rounded-lg'>
+        <div className='window-titlebar bg-gray-950 flex flex-row items-center space-x-1 px-2 py-1 rounded-t-lg text-white'>
           <div className='flex items-center space-x-2 '>
             <button onClick={onClose} title='Close'>
               <PiXCircleFill
-                style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
+                style={{
+                  fill: 'url(#gradient-13)',
+                  width: '20px',
+                  height: '20px',
+                }}
               />
             </button>
 
@@ -79,7 +71,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
               {isMaximized ? (
                 <PiCaretCircleLeftFill
                   style={{
-                    fill: 'gradient-2',
+                    fill: 'url(#gradient-13)',
                     width: '20px',
                     height: '20px',
                   }}
@@ -87,7 +79,7 @@ const AppWindow = ({ title, content, onClose }: Props) => {
               ) : (
                 <PiCaretCircleUpFill
                   style={{
-                    stroke: 'gradient-2',
+                    fill: 'url(#gradient-13)',
                     width: '20px',
                     height: '20px',
                   }}
@@ -96,7 +88,11 @@ const AppWindow = ({ title, content, onClose }: Props) => {
             </button>
             <button onClick={handleMinimize} title='Minimize'>
               <PiCaretCircleDownFill
-                style={{ stroke: 'gradient-2', width: '20px', height: '20px' }}
+                style={{
+                  fill: 'url(#gradient-13)',
+                  width: '20px',
+                  height: '20px',
+                }}
               />
             </button>
           </div>
@@ -105,9 +101,9 @@ const AppWindow = ({ title, content, onClose }: Props) => {
           </div>
         </div>
 
-        {/* Window Content */}
+        {/* Window Content with Custom Scrollbar */}
         <div
-          className='bg-white bg-opacity-20 p-0 overflow-auto'
+          className='bg-transparent overflow-auto custom-scrollbar'
           style={{ height: size.height - 30 }}
         >
           {content}

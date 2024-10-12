@@ -12,6 +12,7 @@ import {
 
 import { taskbarApps } from '../utilities/appData';
 import { OpenWindow } from '../utilities/types';
+import { FaFileAlt } from 'react-icons/fa';
 
 type Props = {
   theme: string;
@@ -27,7 +28,8 @@ function TaskBar({
   isDisabled,
   isStartMenuOpen,
   toggleAppWindow,
-}: //appWindows,
+  appWindows,
+}: //
 Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -93,7 +95,7 @@ Props) {
       <Gradients />
       <div className='fixed bottom-0 left-0 right-96 h-12 w-auto  flex justify-between items-center px-4'>
         {/* Start Button */}
-        <div className='flex items-center space-x-3'>
+        <div className='flex items-center space-x-2'>
           <div className='flex flex-col items-center size-12'>
             <button
               className={`p-2 rounded-none text-white transition transform hover:scale-105 active:scale-95 duration-150 ease-out ${
@@ -114,36 +116,67 @@ Props) {
           </div>
 
           {/* Pinned Icons first */}
-          {taskbarApps.map((app) => (
-            <button
-              key={app.id}
-              className='hover:bg-gray-700 p-2 rounded-none'
-              title={app.name}
-              onClick={() => {
-                toggleAppWindow(app.id);
-              }}
-            >
-              {React.createElement(app.icon, {
-                className: 'w-8 h-8',
-                style: { fill: `url(#${app.gradient})` },
-              })}
-            </button>
-          ))}
+          {taskbarApps.map((app) => {
+            // Check if the app window is open by comparing titles or ids
+            const isOpen = appWindows.some(
+              (appWindow) => appWindow.id === app.id
+            );
 
-          {/* Open Windows 
-          {appWindows.map((appWindow) => (
-            <button
-              key={appWindow.id}
-              className='hover:bg-gray-700 p-2 rounded-none'
-              title={appWindow.title}
-              onClick={() => {
-                toggleAppWindow(appWindow.id);
-              }}
-            >
-              <FaFileAlt className='w-8 h-8' />
-            </button>
-          ))}
-            */}
+            return (
+              <button
+                key={app.id}
+                className={`p-2 rounded-none ${
+                  isOpen
+                    ? 'bg-gray-800 border-b-4 border-blue-500' // Highlight when open
+                    : 'hover:bg-gray-700'
+                }`}
+                title={app.name}
+                onClick={() => {
+                  toggleAppWindow(app.id);
+                }}
+              >
+                {React.createElement(app.icon, {
+                  className: 'w-8 h-8',
+                  style: { fill: `url(#${app.gradient})` },
+                })}
+              </button>
+            );
+          })}
+
+          {/* Open Windows - Only show windows that are not pinned */}
+          {appWindows.map((appWindow) => {
+            const isPinned = taskbarApps.some((app) => app.id === appWindow.id);
+
+            // Only render the icon if it is not already pinned
+            if (!isPinned) {
+              // Check if the window is open and apply the same style as pinned
+              const isOpen = appWindows.some(
+                (window) => window.id === appWindow.id
+              );
+
+              return (
+                <button
+                  key={appWindow.id}
+                  className={`p-2 rounded-none ${
+                    isOpen
+                      ? 'bg-gray-800 border-b-4 border-blue-500' // Same styling for open windows
+                      : 'hover:bg-gray-700'
+                  }`}
+                  title={appWindow.title}
+                  onClick={() => {
+                    toggleAppWindow(appWindow.id);
+                  }}
+                >
+                  {React.cloneElement(appWindow.icon, {
+                    className: 'w-8 h-8',
+                    style: { fill: `url(#gradient-13)` },
+                  })}
+                </button>
+              );
+            }
+
+            return null;
+          })}
         </div>
       </div>
 

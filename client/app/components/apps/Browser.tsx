@@ -7,10 +7,9 @@ import {
 import { BsSearch } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa';
 
-type Props = {};
+type Props = { url: string };
 
-function Browser({}: Props) {
-  const url = 'https://www.google.com/webhp?igu=1';
+function Browser({ url = 'https://www.google.com/webhp?igu=1' }: Props) {
   const name = 'Rushane Wilson';
 
   return (

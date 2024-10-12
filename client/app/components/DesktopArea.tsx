@@ -9,7 +9,12 @@ import {
 } from '@dnd-kit/core';
 import DesktopItem from './DesktopItem';
 import AppWindow from './AppWindow';
-import { PiFileCloudBold, PiFolderBold, PiTrashBold } from 'react-icons/pi';
+import {
+  PiFileCloudBold,
+  PiFolderBold,
+  PiMapTrifoldBold,
+  PiTrashBold,
+} from 'react-icons/pi';
 import { VscGithub } from 'react-icons/vsc';
 
 import { taskbarApps } from '../utilities/appData';
@@ -29,7 +34,7 @@ type DesktopIcon = {
   name: string;
   position: GridSlot;
   icon: JSX.Element;
-  gradientId: string;
+  gradient: string;
   component: JSX.Element;
 };
 
@@ -48,7 +53,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       name: 'Bin',
       position: { x: 0, y: 0 },
       icon: <PiTrashBold />,
-      gradientId: 'gradient-3',
+      gradient: 'gradient-3',
       component: <Bin />,
     },
     {
@@ -56,15 +61,15 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       name: 'About.ME',
       position: { x: 0, y: 100 },
       icon: <PiFileCloudBold />,
-      gradientId: 'gradient-8',
+      gradient: 'gradient-8',
       component: <About />,
     },
     {
       id: 103,
       name: 'Projects',
       position: { x: 0, y: 200 },
-      icon: <PiFolderBold />,
-      gradientId: 'gradient-1',
+      icon: <PiMapTrifoldBold />,
+      gradient: 'gradient-1',
       component: <Projects />,
     },
     {
@@ -72,7 +77,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       name: 'Repo',
       position: { x: 0, y: 300 },
       icon: <VscGithub />,
-      gradientId: 'gradient-2',
+      gradient: 'gradient-2',
       component: <Repo />,
     },
   ]);
@@ -85,35 +90,50 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
       icons.find((icon) => icon.id === id);
     if (!app) return;
 
-    const existingWindow = appWindows.find((window) => window.id === id);
+    setAppWindows((prevWindows) => {
+      const existingWindow = prevWindows.find((window) => window.id === id);
 
-    if (existingWindow) {
-      // If window is already open, bring it to the front by updating its zIndex
-      setAppWindows((prevWindows) =>
-        prevWindows.map((win) =>
-          win.id === id ? { ...win, zIndex: highestZIndex } : win
-        )
-      );
-    } else {
-      // Create a new window if not already open
-      setAppWindows((prevWindows) => [
-        ...prevWindows,
-        {
-          id: app.id,
-          title: app.name,
-          content:
-            typeof app.component === 'function'
-              ? React.createElement(
-                  app.component as React.ComponentType<{ onClose: () => void }>,
-                  {
-                    onClose: () => closeWindow(app.id),
-                  }
-                )
-              : null,
-          zIndex: highestZIndex,
-        },
-      ]);
-    }
+      if (existingWindow) {
+        // If window is already open, toggle its minimized state
+        if (existingWindow.minimized) {
+          // Bring it to the front and un-minimize it
+          return prevWindows.map((win) =>
+            win.id === id
+              ? { ...win, minimized: false, zIndex: highestZIndex }
+              : win
+          );
+        } else {
+          // If the window is already open and not minimized, minimize it
+          return prevWindows.map((win) =>
+            win.id === id ? { ...win, minimized: true } : win
+          );
+        }
+      } else {
+        // Create a new window if not already open
+        return [
+          ...prevWindows,
+          {
+            id: app.id,
+            title: app.name,
+            icon: app.icon,
+            gradient: app.gradient,
+            content:
+              typeof app.component === 'function'
+                ? React.createElement(
+                    app.component as React.ComponentType<{
+                      onClose: () => void;
+                    }>,
+                    {
+                      onClose: () => closeWindow(app.id),
+                    }
+                  )
+                : app.component,
+            zIndex: highestZIndex,
+            minimized: false, // New window starts unminimized
+          },
+        ];
+      }
+    });
 
     // Increase zIndex for the next window
     setHighestZIndex((prevZIndex) => prevZIndex + 1);
@@ -205,7 +225,7 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
         <DesktopItem
           icon={icon.icon}
           name={icon.name}
-          gradientId={icon.gradientId}
+          gradientId={icon.gradient}
         />
       </div>
     );
@@ -231,26 +251,29 @@ function DesktopArea({ currentAppWindow, appWindows, setAppWindows }: Props) {
           ))}
 
           {/* Render open app windows */}
-          {appWindows.map((window) => (
-            <div
-              key={window.id}
-              className='absolute'
-              style={{
-                top: '50px', // Customize positioning here
-                left: '200px', // Customize positioning here
-                width: '500px', // Customize dimensions here
-                height: '300px',
-                zIndex: window.zIndex,
-                pointerEvents: 'auto',
-              }}
-            >
-              <AppWindow
-                title={window.title}
-                content={window.content}
-                onClose={() => closeWindow(window.id)}
-              />
-            </div>
-          ))}
+          {appWindows.map(
+            (window) =>
+              !window.minimized && (
+                <div
+                  key={window.id}
+                  className='absolute'
+                  style={{
+                    top: '50px', // Customize positioning here
+                    left: '200px', // Customize positioning here
+                    width: '500px', // Customize dimensions here
+                    height: '300px',
+                    zIndex: window.zIndex,
+                    pointerEvents: 'auto',
+                  }}
+                >
+                  <AppWindow
+                    title={window.title}
+                    content={window.content}
+                    onClose={() => closeWindow(window.id)}
+                  />
+                </div>
+              )
+          )}
         </div>
       </div>
     </DndContext>
